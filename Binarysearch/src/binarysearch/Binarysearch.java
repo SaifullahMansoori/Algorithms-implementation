@@ -5,72 +5,50 @@
 package binarysearch;
 
 import java.util.*;
-class problem
-{
-    public int solve(int arr[],int key, int low,int high)
-    {
-        int mid;
-       while(low<=high)
-       {
-        mid=(low+high)/2;
-        if(arr[mid]==key)
-            return mid;
-        else if(arr[mid]<key)
-            low=mid+1;
-        else
-            high=mid-1;
-       }
-        return -1;
-    }
-     public int resolve(int arr[],int key, int low,int high)
-     {
-         int mid;
-         while(low<=high)
-         {
-             mid=(low+high)/2;
-             if(arr[mid]==key)
-                 return mid;
-             else if(arr[mid]<key)
-             {
-                 low=mid+1;
-                resolve(arr,key,low,high);
-             }
-             else
-             {
-                 high=mid-1;
-                 resolve(arr,key,low,high);
-             }
-         }
-         return -1;
-                 
-     }
-}
 public class Binarysearch {
-    public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
-        System.out.print("Enter the size of array  ");
-        int size=sc.nextInt();
-        int arr[]=new int[size];
-        for(int i=0;i<arr.length;i++)
+
+    public int binarysearch(int arr[],int key,int low,int high)
+    {
+        if(low<=high)
         {
-            System.out.println("Enter a number for ["+i+"] index ");
-            arr[i]=sc.nextInt();
+            int mid=(low+high)/2;
+            if(arr[mid]==key)
+                return mid;
+            else if(arr[mid]>key)
+            {
+                return binarysearch(arr,key,low,mid-1);
+            }
+            else
+            {
+                mid=mid+1;
+                return binarysearch(arr,key,mid+1,high);
+            }
         }
-        problem ob=new problem();
-        int low=0,high=arr.length-1;
-        System.out.print("Enter a number to search ");
-        int key=sc.nextInt();
-        int result=ob.solve(arr, key, low, high);
-        if(result==-1)
-            System.out.println("the number is note found ");
         else
-            System.out.println("the number is in index "+result);
+            return -1;
+    }
+    public static void main(String[] args) {
+        int arr[]={12,13,5,2,4,6,8,9,0,1};
+         int i;
+        for(int j=1;j<arr.length;j++)
+        {
+           int  key=arr[j];
+            i=j-1;
+            while(i>-1 && arr[i]>key)
+            {
+               arr[i+1]=arr[i];
+               i-=1;
+            }
+            arr[i+1]=key;
+        }
+        int key=9;
+        Binarysearch ob=new Binarysearch();
+        int re=ob.binarysearch(arr, key, 0, arr.length-1);
+        if(re!=-1)
+            System.out.println("key found in this index  "+re);
+        else
+            System.out.println("the key is not found  ");
         
-         int result2=ob.resolve(arr, key, low, high);  
-                if(result==-1)
-            System.out.println("recursion style the number is note found  ");
-        else
-            System.out.println("recursion style the number is in index "+result);
     }
     
 }
